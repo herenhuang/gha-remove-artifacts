@@ -7,8 +7,16 @@ trigger:
 - master
 
 pool:
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'test'
+    publishLocation: 'pipeline'
   vmImage: 'ubuntu-latest'
-
+- task: PublishSymbols@2
+  inputs:
+    SearchPattern: '**/bin/**/*.pdb'
+    SymbolServerType: 'TeamServices'
 steps:
 - task: NodeTool@0
   inputs:
